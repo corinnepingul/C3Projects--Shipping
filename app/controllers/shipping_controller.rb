@@ -1,36 +1,23 @@
-require 'active_shipping'
+require 'usps_client'
 
 class ShippingController < ApplicationController
 
-  def shipping_costs
-    packages = ActiveShipping::Package.new(110, [93, 10], oversized: false)
-    origin = ActiveShipping::Location.new(:country => 'US',
-                                          :state => 'WA',
-                                          :city => 'Seattle',
-                                          :zip => '98102')
-    destination = ActiveShipping::Location.new(:country => 'US',
-                                          :state => 'CA',
-                                          :city => 'Beverly Hills',
-                                          :zip => '90210')
-    login = ENV["USPS_USERNAME"]
-
-    usps = ActiveShipping::USPS.new(:login => login)
-
-    response = usps.find_rates(origin, destination, packages)
-    usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
-    raise
+  def index
+    # When done hardcoding, delete line 7-18
+    params = {
+      :origin_country => 'US',
+      :origin_state => 'WA',
+      :origin_city => 'Seattle',
+      :origin_zip => '98102',
+      :destination_country => 'US',
+      :destination_state => 'CA',
+      :destination_city => 'Beverly Hills',
+      :destination_zip => '90210',
+      :package_dimentions => [93,10],
+      :package_weight => 110
+    }
+    params_hash = params
+    usps_rates = ShippingClient.find_usps_rates(params_hash)
+    fedex_rates = ShippingClient.find_fedex_rates(params_hash)
   end
-
-  # def delivery_estimate
-
-
-  # end
-
-
-  # def tracking
-
-
-  # end
-
-
 end
