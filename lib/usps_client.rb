@@ -1,6 +1,8 @@
 require 'active_shipping'
 
 class ShippingClient
+  # OPTIMIZE: think about how to combine some methods
+
   def self.find_usps_rates(params_hash)
     set_shipping_variables(params_hash)
 
@@ -22,6 +24,22 @@ class ShippingClient
     response = fedex.find_rates(@origin, @destination, @packages)
     fedex_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
     return fedex_rates
+  end
+
+  def self.fedex_shipping_estimate
+
+  end
+
+  def self.usps_shipping_estimate
+
+  end
+
+  def self.fedex_tracking_info
+
+  end
+
+  def self.usps_tracking_info
+
   end
 
   private
