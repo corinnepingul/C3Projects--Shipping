@@ -16,7 +16,12 @@ class ShippingController < ApplicationController
     #   :package_dimentions => [93,10],
     #   :package_weight => 110
     # }
+
+    ShippingOrder.create_shipping_order(params)
+    Package.create_packages(params)
+
     params_hash = params
+
 
     @usps_rates = ShippingClient.find_usps_rates(params_hash)
     @fedex_rates = ShippingClient.find_fedex_rates(params_hash)
