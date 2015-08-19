@@ -65,7 +65,7 @@ class ShippingClient
   end
 
   def self.set_packages(params_hash)
-    ActiveShipping::Package.new(params_hash[:package_weight],
-                                params_hash[:packages_dimentions])
+    ActiveShipping::Package.new(params_hash[:package_weight].to_i,
+                                [params_hash[:package_length].to_i, params_hash[:package_width].to_i])
   end
 end
