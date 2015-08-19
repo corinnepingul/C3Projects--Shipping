@@ -3,7 +3,7 @@ require 'usps_client'
 class ShippingController < ApplicationController
 
   def index
-    # When done hardcoding, delete line 7-18
+    # TODO: When done hardcoding, delete line 7-18
     params = {
       :origin_country => 'US',
       :origin_state => 'WA',
@@ -22,7 +22,6 @@ class ShippingController < ApplicationController
     @fedex_rates = ShippingClient.find_fedex_rates(params_hash)
     rates = {usps: @usps_rates, fedex: @fedex_rates}
 
-    # TODO: RETURNS DATA IN JSON
     render json: rates
   end
 end
