@@ -36,5 +36,27 @@ RSpec.describe ShippingController, type: :controller do
 
       expect(assigns(:fedex_rates)).to be_an_instance_of Array
     end
+
+    it "returns json" do
+      get :index
+      expect(response.header['Content-Type']).to include 'application/json'
+    end
+
+    context "the returned json object" do
+      before :each do
+        get :index
+        @response = JSON.parse response.body
+      end
+
+      it "is an array of delivery objects" do
+        # expect(@response).to be_an_instance_of Array
+        # expect(@response.length).to eq 2
+      end
+
+      it "includes both usps and fedex delivery options and rates" do
+        # expect(@response.map { |r| r.keys}.flatten.uniq.sort)
+        # expect(@response.map(&:keys).flatten.uniq.sort).to eq keys
+      end
+    end
   end
 end

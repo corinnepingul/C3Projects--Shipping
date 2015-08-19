@@ -21,6 +21,6 @@ class ShippingController < ApplicationController
     @fedex_rates = ShippingClient.find_fedex_rates(params_hash)
 
     # TODO: RETURNS DATA IN JSON
-    render json: {}
+    render json: @usps_rates
   end
 end
