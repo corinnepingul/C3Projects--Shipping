@@ -65,7 +65,12 @@ class ShippingClient
   end
 
   def self.set_packages(params_hash)
-    ActiveShipping::Package.new(params_hash[:package_weight].to_i,
-                                [params_hash[:package_length].to_i, params_hash[:package_width].to_i])
+    products = params_hash[:products] # This will be our array of data
+    packages = products.map do |product|
+      ActiveShipping::Package.new(product[:weight],
+                                  [product[:length], product[:width]])
+    end
+
+    return packages
   end
 end

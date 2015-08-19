@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  get 'shipping/destination_country=:destination_country&destination_state=:destination_state&destination_city=:destination_city&destination_zip=:destination_zip&origin_country=:origin_country&origin_state=:origin_state&origin_city=:origin_city&origin_zip=:origin_zip&package_length=:package_length&package_width=:package_width&package_weight=:package_weight' => 'shipping#index'
+  get 'shipping' => 'shipping#index' #/destination_country=:destination_country&destination_state=:destination_state&destination_city=:destination_city&destination_zip=:destination_zip&origin_country=:origin_country&origin_state=:origin_state&origin_city=:origin_city&origin_zip=:origin_zip&package_length=:package_length&package_width=:package_width&package_weight=:package_weight' => 'shipping#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
