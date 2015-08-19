@@ -17,10 +17,12 @@ class ShippingController < ApplicationController
       :package_weight => 110
     }
     params_hash = params
+
     @usps_rates = ShippingClient.find_usps_rates(params_hash)
     @fedex_rates = ShippingClient.find_fedex_rates(params_hash)
+    rates = {usps: @usps_rates, fedex: @fedex_rates}
 
     # TODO: RETURNS DATA IN JSON
-    render json: {}
+    render json: rates
   end
 end
