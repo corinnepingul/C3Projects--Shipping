@@ -33,12 +33,7 @@ RSpec.describe ShippingController, type: :controller do
                           },
                   :products => products}
 
-
-<<<<<<< HEAD
-        get :rates, params
-=======
         get :rates_and_estimates, params
->>>>>>> 70d8d46e3e216f45c7ee2124e36a06378b836e27
       end
     end
 
