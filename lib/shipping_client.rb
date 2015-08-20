@@ -4,6 +4,7 @@ class ShippingClient
   # OPTIMIZE: think about how to combine some methods
 
   def self.find_usps_rates(params)
+
     set_shipping_variables(params)
 
     usps = ActiveShipping::USPS.new(:login => ENV["USPS_USERNAME"])
@@ -45,9 +46,11 @@ class ShippingClient
   private
 
   def self.set_shipping_variables(params)
+
     @origin = set_origin_location(params)
     @destination = set_destination_location(params)
     @packages = set_packages(params)
+
   end
 
   def self.set_origin_location(params)

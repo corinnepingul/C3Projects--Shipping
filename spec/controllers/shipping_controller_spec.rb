@@ -7,7 +7,34 @@ RSpec.describe ShippingController, type: :controller do
 
     before :each do
       VCR.use_cassette('calling shipping client') do
-        get :index
+        products = [{
+                    weight: 123,
+                    length: 30,
+                    width: 20
+                  },
+                  {
+                    weight: 70,
+                    length: 60,
+                    width: 20
+                  }]
+
+        params =
+                  {:origin => {
+                          :country => "US",
+                          :state => "CA",
+                          :city => "Beverly Hills",
+                          :zip => "90210"
+                          },
+                  :destination => {
+                          :country => "US",
+                          :state => "WA",
+                          :city => "Seattle",
+                          :zip => "98102"
+                          },
+                  :products => products}
+
+
+        get :index, params => params
       end
     end
 
@@ -44,10 +71,10 @@ RSpec.describe ShippingController, type: :controller do
       expect(assigns(:fedex_rates)).to be_an_instance_of Array
     end
 
-    it "includes 'FedEx 2 Day' delivery option" do
+    it "includes 'FedEx Ground Home Delivery' delivery option" do
 
 
-      delivery = 'FedEx 2 Day'
+      delivery = 'FedEx Ground Home Delivery'
       # loops through response of fedex shipping rates per delivery type
       # and returns an array with the selected array
       delivery_type = assigns(:fedex_rates).select do |delivery_type|
