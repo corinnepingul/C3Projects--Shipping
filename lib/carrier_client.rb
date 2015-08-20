@@ -4,48 +4,39 @@ class CarrierClient
   # OPTIMIZE: think about how to combine some methods
 
   def self.find_usps_rates(params)
+    set_rate_variables(params)
 
-    set_shipping_variables(params)
-
-    usps = ActiveShipping::USPS.new(:login => ENV["USPS_USERNAME"])
+    usps = login_usps
     response = usps.find_rates(@origin, @destination, @packages)
-    usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+    usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
     return usps_rates
   end
 
-  def self.find_fedex_rates(params)
-    set_shipping_variables(params)
+  def self.find_fedex_rates_and_estimates(params)
+    set_rate_variables(params)
 
-    fedex = ActiveShipping::FedEx.new(:login => ENV["FEDEX_LOGIN"],
-                                    :password => ENV["FEDEX_PASSWORD"],
-                                    :key => ENV["FEDEX_KEY"],
-                                    :account => ENV["FEDEX_ACCOUNT"],
-                                    :meter => ENV["FEDEX_LOGIN"],
-                                    :test => true)
+    fedex = login_fedex
     response = fedex.find_rates(@origin, @destination, @packages)
-    fedex_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+    fedex_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
     return fedex_rates
-  end
-
-  def self.fedex_shipping_estimate
-
-  end
-
-  def self.usps_shipping_estimate
-
-  end
-
-  def self.fedex_tracking_info
-
-  end
-
-  def self.usps_tracking_info
-
   end
 
   private
 
-  def self.set_shipping_variables(params)
+  def self.login_usps
+    ActiveShipping::USPS.new(:login => ENV["USPS_USERNAME"])
+  end
+
+  def self.login_fedex
+    ActiveShipping::FedEx.new(:login => ENV["FEDEX_LOGIN"],
+                              :password => ENV["FEDEX_PASSWORD"],
+                              :key => ENV["FEDEX_KEY"],
+                              :account => ENV["FEDEX_ACCOUNT"],
+                              :meter => ENV["FEDEX_LOGIN"],
+                              :test => true)
+  end
+
+  def self.set_rate_variables(params)
     @origin = set_origin_location(params)
     @destination = set_destination_location(params)
     @packages = set_packages(params)
