@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
 
-  get '/shipping' => 'shipping#rates'
-  get '/estimates' => 'shipping#estimates'
+  get '/shipping' => 'shipping#rates_and_estimates'
   post '/shipping/shipping_order' => 'shipping#order_complete'
 
   # The priority is based upon order of creation: first created -> highest priority.
