@@ -1,10 +1,10 @@
-require 'shipping_client'
+require 'carrier_client'
 
 class ShippingController < ApplicationController
 
   def index
-    @usps_rates = ShippingClient.find_usps_rates(params)
-    @fedex_rates = ShippingClient.find_fedex_rates(params)
+    @usps_rates = CarrierClient.find_usps_rates(params)
+    @fedex_rates = CarrierClient.find_fedex_rates(params)
 
     rates = {usps: @usps_rates, fedex: @fedex_rates}
 

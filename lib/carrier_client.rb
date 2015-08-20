@@ -1,6 +1,6 @@
 require 'active_shipping'
 
-class ShippingClient
+class CarrierClient
   # OPTIMIZE: think about how to combine some methods
 
   def self.find_usps_rates(params)
