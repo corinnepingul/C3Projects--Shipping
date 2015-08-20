@@ -7,7 +7,34 @@ RSpec.describe ShippingController, type: :controller do
 
     before :each do
       VCR.use_cassette('calling shipping client') do
-        get :index
+        products = [{
+                    weight: 123,
+                    length: 30,
+                    width: 20
+                  },
+                  {
+                    weight: 70,
+                    length: 60,
+                    width: 20
+                  }]
+
+        params =
+                  {:origin => {
+                          :country => "US",
+                          :state => "CA",
+                          :city => "Beverly Hills",
+                          :zip => "90210"
+                          },
+                  :destination => {
+                          :country => "US",
+                          :state => "WA",
+                          :city => "Seattle",
+                          :zip => "98102"
+                          },
+                  :products => products}
+
+
+        get :index, params => params
       end
     end
 

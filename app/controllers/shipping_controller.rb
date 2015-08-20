@@ -3,10 +3,6 @@ require 'shipping_client'
 class ShippingController < ApplicationController
 
   def index
-
-
-    params_hash = params
-
     @usps_rates = ShippingClient.find_usps_rates(params)
     @fedex_rates = ShippingClient.find_fedex_rates(params)
 
