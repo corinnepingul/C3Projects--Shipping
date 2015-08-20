@@ -15,13 +15,8 @@ class ShippingController < ApplicationController
 
   end
 
-  def order_complete
-    #betsy makes a call to another URI that sends over all the data for the
-    # order again, but this time it posts and persists to the database
-
-
-    # ShippingOrder.create_shipping_order(params)
-    # Package.create_packages(params)
-
+  def order_complete(params)
+    ShippingOrder.create_shipping_order(params)
+    Package.create_packages(session[:products])
   end
 end

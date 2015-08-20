@@ -2,17 +2,18 @@ class Package < ActiveRecord::Base
   # Associations----------------------------------------------------------
   belongs_to :shipping_order
 
-  def self.create_packages(params)
+  def self.create_packages(products)
     order = ShippingOrder.last
     id = order.id
 
-    package = self.new
+    products.each do |product|
+      package = Package.new
 
-    package.weight = params[:package_weight]
-    package.length = params[:package_length]
-    package.width = params[:package_width]
-    package.order_id = id
-
-    package.save
+      package.weight = session[:product][:weight]
+      package.length = session[:product_length]
+      package.width = session[:product_width]
+      package.order_id = id
+      package.save
+    end
   end
 end

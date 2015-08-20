@@ -2,17 +2,19 @@ class ShippingOrder < ActiveRecord::Base
   # Associations----------------------------------------------------------
   has_many :packages
 
-  def self.create_shipping_order(params)
+  def self.create_shipping_order(origin, destination, params)
     order = self.new
 
-    order.origin_country = params[:origin_country]
-    order.origin_state = params[:origin_state]
-    order.origin_city = params[:origin_city]
-    order.origin_zip = params[:origin_zip]
-    order.destination_country = params[:destination_country]
-    order.destination_state = params[:destination_state]
-    order.destination_city = params[:destination_city]
-    order.destination_zip = params[:destination_zip]
+    order.origin_country = session[:origin][:country]
+    order.origin_state = session[:origin][:state]
+    order.origin_city = session[:origin][:city]
+    order.origin_zip = session[:origin][:zip]
+    order.destination_country = session[:destination][:country]
+    order.destination_state = session[:destination][:state]
+    order.destination_city = session[:destination][:city]
+    order.destination_zip = session[:destination][:zip]
+    order.order_id = params[:order_id]
+    order.delivery_method = params[:shipping_method]
 
     order.save
   end

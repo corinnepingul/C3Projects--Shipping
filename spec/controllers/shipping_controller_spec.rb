@@ -3,7 +3,7 @@ require 'support/vcr_setup'
 
 RSpec.describe ShippingController, type: :controller do
   #how to test it's make a call the API when those are in the client?
-  describe "GET 'index'" do
+  describe "GET 'rates'" do
 
     before :each do
       VCR.use_cassette('calling shipping client') do
@@ -34,7 +34,7 @@ RSpec.describe ShippingController, type: :controller do
                   :products => products}
 
 
-        get :index, params
+        get :rates, params
       end
     end
 
