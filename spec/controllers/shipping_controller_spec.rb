@@ -3,7 +3,7 @@ require 'support/vcr_setup'
 
 RSpec.describe ShippingController, type: :controller do
   #how to test it's make a call the API when those are in the client?
-  describe "GET 'index'" do
+  describe "GET 'rates_and_estimates'" do
 
     before :each do
       VCR.use_cassette('calling shipping client') do
@@ -34,23 +34,19 @@ RSpec.describe ShippingController, type: :controller do
                   :products => products}
 
 
-        get :index, params
+        get :rates_and_estimates, params
       end
     end
 
     it "is successful" do
-
       expect(response.response_code).to eq 200
     end
 
     it "calls the #find_usps_rates and returns an array of shipping rates" do
-
       expect(assigns(:usps_rates)).to be_an_instance_of Array
     end
 
     it "includes 'USPS Priority Mail 2-Day' delivery option" do
-
-
       delivery = 'USPS Priority Mail 2-Day'
       # loops through response of usps shipping rates per delivery type
       # and returns an array with the selected array
@@ -62,18 +58,14 @@ RSpec.describe ShippingController, type: :controller do
 
       expect(delivery_type).to include(delivery)
       expect(delivery_type).to be_an_instance_of Array
-      expect(delivery_type.length).to eq 2
+      expect(delivery_type.length).to eq 3
     end
 
     it "calls the #find_fedex_rates and returns an array of shipping rates" do
-
-
       expect(assigns(:fedex_rates)).to be_an_instance_of Array
     end
 
     it "includes 'FedEx Ground Home Delivery' delivery option" do
-
-
       delivery = 'FedEx Ground Home Delivery'
       # loops through response of fedex shipping rates per delivery type
       # and returns an array with the selected array
@@ -85,11 +77,10 @@ RSpec.describe ShippingController, type: :controller do
 
       expect(delivery_type).to include(delivery)
       expect(delivery_type).to be_an_instance_of Array
-      expect(delivery_type.length).to eq 2
+      expect(delivery_type.length).to eq 3
     end
 
     it "returns json" do
-
       expect(response.header['Content-Type']).to include 'application/json'
     end
 
