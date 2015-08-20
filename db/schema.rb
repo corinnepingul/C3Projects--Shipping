@@ -11,15 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819203840) do
+ActiveRecord::Schema.define(version: 20150820040344) do
 
   create_table "packages", force: :cascade do |t|
-    t.integer  "order_id"
+    t.integer  "shipping_order_id"
     t.integer  "weight"
     t.integer  "length"
     t.integer  "width"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "shipping_orders", force: :cascade do |t|
@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 20150819203840) do
     t.string   "destination_zip"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.integer  "order_id"
+    t.string   "delivery_method"
   end
 
 end

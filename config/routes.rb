@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   get '/shipping' => 'shipping#index'
+  post '/shipping/shipping_order' => 'shipping#order_complete'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
