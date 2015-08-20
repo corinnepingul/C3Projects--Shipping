@@ -10,6 +10,7 @@ class ShippingController < ApplicationController
     if @usps_rates == nil || @fedex_rates == nil
       render json: {}, status: 400
     else
+      Log.save_to_log(params)
       rates = {usps: @usps_rates, fedex: @fedex_rates}
 
       render json: rates
@@ -17,12 +18,9 @@ class ShippingController < ApplicationController
   end
 
   def order_complete
-    #betsy makes a call to another URI that sends over all the data for the
-    # order again, but this time it posts and persists to the database
 
+    Log.update_log(params)
 
-    # ShippingOrder.create_shipping_order(params)
-    # Package.create_packages(params)
-
+    render :nothing => true
   end
 end
