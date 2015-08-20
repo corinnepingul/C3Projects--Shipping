@@ -3,8 +3,8 @@ require 'active_shipping'
 class ShippingClient
   # OPTIMIZE: think about how to combine some methods
 
-  def self.find_usps_rates(params_hash)
-    set_shipping_variables(params_hash)
+  def self.find_usps_rates(params)
+    set_shipping_variables(params)
 
     usps = ActiveShipping::USPS.new(:login => ENV["USPS_USERNAME"])
     response = usps.find_rates(@origin, @destination, @packages)
@@ -12,8 +12,8 @@ class ShippingClient
     return usps_rates
   end
 
-  def self.find_fedex_rates(params_hash)
-    set_shipping_variables(params_hash)
+  def self.find_fedex_rates(params)
+    set_shipping_variables(params)
 
     fedex = ActiveShipping::FedEx.new(:login => ENV["FEDEX_LOGIN"],
                                     :password => ENV["FEDEX_PASSWORD"],
@@ -44,28 +44,27 @@ class ShippingClient
 
   private
 
-  def self.set_shipping_variables(params_hash)
-    @origin = set_origin_location(params_hash)
-    @destination = set_destination_location(params_hash)
-    @packages = set_packages(params_hash)
+  def self.set_shipping_variables(params)
+    @origin = set_origin_location(params)
+    @destination = set_destination_location(params)
+    @packages = set_packages(params)
   end
 
-  def self.set_origin_location(params_hash)
-    ActiveShipping::Location.new(:country => params_hash[:origin_country],
-                                :state => params_hash[:origin_state],
-                                :city => params_hash[:origin_city],
-                                :zip => params_hash[:origin_zip])
+  def self.set_origin_location(params)
+    ActiveShipping::Location.new(params[:origin])
   end
 
-  def self.set_destination_location(params_hash)
-    ActiveShipping::Location.new(:country => params_hash[:destination_country],
-                                :state => params_hash[:destination_state],
-                                :city => params_hash[:destination_city],
-                                :zip => params_hash[:destination_zip])
+  def self.set_destination_location(params)
+    ActiveShipping::Location.new(params[:destination])
   end
 
-  def self.set_packages(params_hash)
-    ActiveShipping::Package.new(params_hash[:package_weight].to_i,
-                                [params_hash[:package_length].to_i, params_hash[:package_width].to_i])
+  def self.set_packages(params)
+    products = params[:products] # This will be our array of data
+    packages = products.map do |product|
+      ActiveShipping::Package.new(product[:weight].to_i,
+                                  [product[:length].to_i, product[:width].to_i])
+    end
+
+    return packages
   end
 end
