@@ -18,7 +18,6 @@ class ShippingController < ApplicationController
   end
 
   def order_complete
-
     Log.update_log(params)
 
     render :nothing => true
