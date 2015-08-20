@@ -11,30 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150820040344) do
+ActiveRecord::Schema.define(version: 20150820212823) do
 
-  create_table "packages", force: :cascade do |t|
-    t.integer  "shipping_order_id"
-    t.integer  "weight"
-    t.integer  "length"
-    t.integer  "width"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-  end
-
-  create_table "shipping_orders", force: :cascade do |t|
-    t.string   "origin_country"
-    t.string   "origin_state"
-    t.string   "origin_city"
-    t.string   "origin_zip"
-    t.string   "destination_country"
-    t.string   "destination_state"
-    t.string   "destination_city"
-    t.string   "destination_zip"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-    t.integer  "order_id"
-    t.string   "delivery_method"
+  create_table "logs", force: :cascade do |t|
+    t.string   "request"
+    t.string   "delivery_method_chosen"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "client_order_id"
   end
 
 end
