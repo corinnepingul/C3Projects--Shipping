@@ -1,24 +1,38 @@
 require 'active_shipping'
 
 class CarrierClient
-  # OPTIMIZE: think about how to combine some methods
-
   def self.find_usps_rates(params)
-    set_rate_variables(params)
+    valid_variables = set_rate_variables(params)
 
-    usps = login_usps
-    response = usps.find_rates(@origin, @destination, @packages)
-    usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
-    return usps_rates
+    if valid_variables == true
+      usps = login_usps
+      begin
+        response = usps.find_rates(@origin, @destination, @packages)
+        usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
+      rescue
+        return nil
+      end
+      return usps_rates
+    else
+      return nil
+    end
   end
 
   def self.find_fedex_rates_and_estimates(params)
-    set_rate_variables(params)
+    valid_variables = set_rate_variables(params)
 
-    fedex = login_fedex
-    response = fedex.find_rates(@origin, @destination, @packages)
-    fedex_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
-    return fedex_rates
+    if valid_variables == true
+      fedex = login_fedex
+      begin
+        response = fedex.find_rates(@origin, @destination, @packages)
+        fedex_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
+      rescue
+        return nil
+      end
+      return fedex_rates
+    else
+      return nil
+    end
   end
 
   private
@@ -40,23 +54,41 @@ class CarrierClient
     @origin = set_origin_location(params)
     @destination = set_destination_location(params)
     @packages = set_packages(params)
+
+    if @origin.nil? || @destination.nil? || @packages.nil?
+      return false
+    else
+      return true
+    end
   end
 
   def self.set_origin_location(params)
-    ActiveShipping::Location.new(params[:origin])
+    begin
+      ActiveShipping::Location.new(params[:origin])
+    rescue
+      return nil
+    end
   end
 
   def self.set_destination_location(params)
-    ActiveShipping::Location.new(params[:destination])
+    begin
+      ActiveShipping::Location.new(params[:destination])
+    rescue
+      return nil
+    end
   end
 
   def self.set_packages(params)
-    products = params[:products] # This will be our array of data
-    packages = products.map do |product|
-      ActiveShipping::Package.new(product[:weight].to_i,
-                                  [product[:length].to_i, product[:width].to_i])
-    end
+    begin
+      products = params[:products] # This will be our array of data
+      packages = products.map do |product|
+        ActiveShipping::Package.new(product[:weight].to_i,
+                                    [product[:length].to_i, product[:width].to_i])
+      end
 
-    return packages
+      return packages
+    rescue
+      return nil
+    end
   end
 end
