@@ -46,11 +46,9 @@ class CarrierClient
   private
 
   def self.set_shipping_variables(params)
-
     @origin = set_origin_location(params)
     @destination = set_destination_location(params)
     @packages = set_packages(params)
-
   end
 
   def self.set_origin_location(params)

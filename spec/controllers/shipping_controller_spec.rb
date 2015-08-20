@@ -34,7 +34,7 @@ RSpec.describe ShippingController, type: :controller do
                   :products => products}
 
 
-        get :index, params => params
+        get :index, params
       end
     end
 
