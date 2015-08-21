@@ -80,7 +80,7 @@ class CarrierClient
 
   def self.set_packages(params)
     begin
-      products = params[:products] # This will be our array of data
+      products = params[:products] # This will be our array of package data
       packages = products.map do |product|
         ActiveShipping::Package.new(product[:weight].to_i,
                                     [product[:length].to_i, product[:width].to_i])
