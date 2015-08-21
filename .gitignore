@@ -18,3 +18,4 @@
 coverage
 .env
 /vcr_cassettes
+.DS_Store

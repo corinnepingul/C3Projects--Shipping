@@ -1,5 +1,4 @@
 class Log < ActiveRecord::Base
-
   def self.save_to_log(params)
     log = Log.new
 
