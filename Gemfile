@@ -25,7 +25,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'active_shipping'
 
 group :production do
-  gem 'pg'
+  gem 'pg', '~>0.18.2'
 end
 
 # Use ActiveModel has_secure_password

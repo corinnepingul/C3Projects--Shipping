@@ -214,7 +214,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.0)
   jbuilder (~> 2.0)
   jquery-rails
-  pg
+  pg (~> 0.18.2)
   pry-rails
   rails (= 4.2.3)
   rspec-rails
