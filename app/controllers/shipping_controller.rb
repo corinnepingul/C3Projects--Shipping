@@ -4,9 +4,7 @@ class ShippingController < ApplicationController
 
   def rates_and_estimates
     @usps_rates = CarrierClient.find_usps_rates(params)
-    # Fedex wants us to sign up and give cc information if we want to put their API
-    # into production...we don't want to do that...haha
-    @fedex_rates = Rails.env.production? ? {} : CarrierClient.find_fedex_rates_and_estimates(params)
+    @fedex_rates = CarrierClient.find_fedex_rates_and_estimates(params)
 
     # These would be nil if the request was bad
     if @usps_rates == nil || @fedex_rates == nil
